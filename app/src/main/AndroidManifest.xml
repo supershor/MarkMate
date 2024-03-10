@@ -13,7 +13,22 @@
         android:theme="@style/Theme.MarkMate"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".reset_password"
+            android:exported="false" />
+        <activity
+            android:name=".create_new_account_page"
+            android:exported="false" />
+        <activity
+            android:name=".code_confirmation_page"
+            android:exported="false" />
+        <activity
+            android:name=".sign_up_page"
+            android:exported="false" />
+        <activity
+            android:name=".login_page"
+            android:exported="false" />
+        <activity
+            android:name=".loading_page"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +36,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

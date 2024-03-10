@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".create_new_account_page">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SIGN UP"
+                android:textAlignment="center"
+                android:textSize="@dimen/_28sdp"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create new account"
+                android:textAlignment="center"
+                android:textSize="@dimen/_28sdp"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/_25sdp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <EditText
+                    android:maxLength="10"
+                    android:id="@+id/name_information_save_info_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_25sdp"
+                    android:background="@drawable/input_taker"
+                    android:hint="  Enter name"
+                    android:padding="@dimen/_7sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/_18sdp" />
+                <EditText
+                    android:maxLength="10"
+                    android:id="@+id/surname_information_save_info_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_25sdp"
+                    android:layout_marginLeft="@dimen/_25sdp"
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    android:background="@drawable/input_taker"
+                    android:hint="  Enter surname"
+                    android:padding="@dimen/_7sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/_18sdp" />
+                <EditText
+                    android:maxLength="20"
+                    android:id="@+id/password_information_save_info_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_25sdp"
+                    android:layout_marginLeft="@dimen/_25sdp"
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    android:background="@drawable/input_taker"
+                    android:hint="  Enter password"
+                    android:padding="@dimen/_7sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/_18sdp" />
+                <EditText
+                    android:maxLength="20"
+                    android:id="@+id/re_enter_password_information_save_info_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_25sdp"
+                    android:layout_marginLeft="@dimen/_25sdp"
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    android:background="@drawable/input_taker"
+                    android:hint="  Confirm password"
+                    android:padding="@dimen/_7sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/_18sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <CheckBox
+                    android:id="@+id/checkbox_agree_for_terms_and_condition_at_save_info_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginLeft="@dimen/_25sdp"
+                    android:layout_marginRight="@dimen/_25sdp"
+                    android:text="@string/agree_to_terms_and_condition"
+                    android:textColor="@color/black"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/save_account_creation_informations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_25sdp"
+                    android:layout_marginRight="@dimen/_25sdp"
+                    android:background="@drawable/buttons_design"
+                    android:text="Save"
+                    android:textColor="@color/white" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/already_have_an_account_save_info_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background"
+                    android:text="@string/already_have_an_account"
+                    android:textSize="@dimen/_16sdp"
+                    android:textAlignment="center"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

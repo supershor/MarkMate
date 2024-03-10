@@ -32,7 +32,10 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.hbb20:ccp:2.7.3")
+    implementation ("com.airbnb.android:lottie:3.4.0")
+    implementation("com.intuit.sdp:sdp-android:1.1.0")
+    implementation("com.intuit.sdp:sdp-android:1.1.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
