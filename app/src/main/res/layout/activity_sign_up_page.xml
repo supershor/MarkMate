@@ -45,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <com.hbb20.CountryCodePicker
                     android:id="@+id/ccp"
                     android:layout_width="wrap_content"
@@ -59,9 +58,7 @@
                     app:ccpDialog_fastScroller_bubbleColor="@color/black"
                     app:ccpDialog_fastScroller_handleColor="@color/black"
                     app:ccp_textSize="@dimen/_18sdp" />
-
                 <EditText
-                    android:maxLength="10"
                     android:id="@+id/PERSONAL_NUMBER"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

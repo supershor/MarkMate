@@ -13,6 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class loading_page extends AppCompatActivity {
     Intent login;
     Intent sign_up;
@@ -30,6 +32,11 @@ public class loading_page extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser()!=null){
+            startActivity(new Intent(loading_page.this, MainActivity.class));
+            finishAffinity();
+        }
         loading_page_login =findViewById(R.id.loading_page_login);
         loading_page_sign_up =findViewById(R.id.loading_page_sign_up);
         loading_page_login.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +49,7 @@ public class loading_page extends AppCompatActivity {
         loading_page_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sign_up=new Intent(loading_page.this,sign_up_page.class);
+                sign_up=new Intent(loading_page.this,create_new_account_page.class);
                 startActivity(sign_up);
             }
         });

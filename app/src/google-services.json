@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "628248147946",
+    "project_id": "markmate-5452c",
+    "storage_bucket": "markmate-5452c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628248147946:android:2e1d9db5d9709416aa2493",
+        "android_client_info": {
+          "package_name": "com.apify.markmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbUYdGdX2ODbgtAGuwO3TENIvQZ2pZnc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
