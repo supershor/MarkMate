@@ -62,6 +62,45 @@ public class login_page extends AppCompatActivity {
                 finish();
             }
         });
+        forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText=new EditText(login_page.this);
+                final AlertDialog.Builder alertdialog=new AlertDialog.Builder(login_page.this);
+                alertdialog.setTitle("Reset Password").setMessage("Enter your email to get reset link").setView(editText);
+                alertdialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (editText.getText()!=null&&editText.getText().toString().length()>0){
+                            firebaseAuth.sendPasswordResetEmail(editText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        Toast.makeText(login_page.this, "Reset link sent.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("ans errors 2",e.toString());
+                                    Log.e("ans errors 3",e.getMessage());
+                                    Toast.makeText(login_page.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else{
+                            Toast.makeText(login_page.this, "Please enter email address correctly", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                alertdialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertdialog.show();
+            }
+        });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
