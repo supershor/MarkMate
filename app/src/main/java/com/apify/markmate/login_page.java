@@ -66,9 +66,9 @@ public class login_page extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText editText=new EditText(login_page.this);
-                final AlertDialog.Builder alertdialog=new AlertDialog.Builder(login_page.this);
-                alertdialog.setTitle("Reset Password").setMessage("Enter your email to get reset link").setView(editText);
-                alertdialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                final AlertDialog.Builder reset_alert_dialog=new AlertDialog.Builder(login_page.this);
+                reset_alert_dialog.setTitle("Reset Password").setMessage("Enter your email to get reset link").setView(editText);
+                reset_alert_dialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (editText.getText()!=null&&editText.getText().toString().length()>0){
@@ -92,13 +92,13 @@ public class login_page extends AppCompatActivity {
                         }
                     }
                 });
-                alertdialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                reset_alert_dialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
-                alertdialog.show();
+                reset_alert_dialog.show();
             }
         });
         login.setOnClickListener(new View.OnClickListener() {

@@ -6,4 +6,7 @@
     </style>
 
     <style name="Theme.MarkMate" parent="Base.Theme.MarkMate" />
+    <style name="Alert.Dialog.BAckground" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/dialog_light</item>
+    </style>
 </resources>

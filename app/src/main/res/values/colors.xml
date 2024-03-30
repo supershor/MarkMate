@@ -5,4 +5,5 @@
     <color name="dark_green">#243E36</color>
     <color name="background">#EDF6F9</color>
     <color name="light">#D9D9D9</color>
+    <color name="dialog_light">#DFDFDF</color>
 </resources>

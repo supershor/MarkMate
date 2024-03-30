@@ -94,7 +94,7 @@
                     android:layout_marginLeft="@dimen/_25sdp"
                     android:layout_marginBottom="@dimen/_25sdp"
                     android:background="@drawable/input_taker"
-                    android:hint="Confirm password"
+                    android:hint="Enter password"
                     android:textAlignment="center"
                     android:padding="@dimen/_7sdp"
                     android:textColor="@color/black"

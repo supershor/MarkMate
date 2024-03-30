@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:layout_width="match_parent"
     android:background="@color/background"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".sub_organization">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,7 +18,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ORGANIZATIONS"
+                android:text="SUB ORGANIZATIONS"
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:layout_marginTop="@dimen/_60sdp"
@@ -27,14 +26,14 @@
                 android:textSize="@dimen/_26sdp"
                 android:textColor="@color/black"/>
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_28sdp"
                 android:layout_height="match_parent"
-                android:id="@+id/recycler_organization_list"/>
+                android:id="@+id/recycler_sub_organization_list"/>
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/add_new_sub_organization"
                 android:layout_width="match_parent"
-                android:id="@+id/add_new_organization"
                 android:layout_height="wrap_content"
                 android:text="Add new organization"
                 android:layout_margin="@dimen/_10sdp"

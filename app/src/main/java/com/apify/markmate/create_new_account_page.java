@@ -19,10 +19,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.apify.markmate.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 import javax.security.auth.login.LoginException;
 
@@ -36,6 +43,8 @@ public class create_new_account_page extends AppCompatActivity {
     AppCompatButton save_button;
     AppCompatButton login_button;
     String issue1;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -82,17 +91,26 @@ public class create_new_account_page extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.e("ans jump", "2");
                             if (task.isSuccessful()){
-                                Log.e("ans jump", "3");
-                                Log.e("ans error",task.toString());
-                                Log.e("ans error",task.getException().toString());
                                 FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
-                                startActivity(new Intent(create_new_account_page.this,MainActivity.class));
-                                finishAffinity();
+                                firebaseDatabase=FirebaseDatabase.getInstance("https://markmate-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                                databaseReference=firebaseDatabase.getReference("USER DATA");
+                                databaseReference.child(firebaseUser.getUid()).child("Personal informations").child("Name").setValue(name.getText()+" "+surname.getText()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        startActivity(new Intent(create_new_account_page.this,MainActivity.class));
+                                        finishAffinity();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e("ans failure",e.toString());
+                                        Toast.makeText(create_new_account_page.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }else{
                                 Log.e("ans jump", "4 ");
                                 Log.e("ans error",task.toString());
-                                Log.e("ans error",task.getException().toString());
-                                String issue=task.getException().toString();
+                                Log.e("ans error", Objects.requireNonNull(task.getException()).toString());
                                 if (task.getException().toString().contains("com.google.firebase.auth.FirebaseAuthUserCollisionException: ")){
                                     Log.e("ans --","1");
                                     Toast.makeText(create_new_account_page.this,task.getException().toString().replace("com.google.firebase.auth.FirebaseAuthUserCollisionException: ",""), Toast.LENGTH_SHORT).show();
