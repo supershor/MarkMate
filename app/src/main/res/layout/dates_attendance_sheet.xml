@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:elevation="@dimen/_2sdp"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/light"
+            app:cardCornerRadius="@dimen/_50sdp"
+            app:cardUseCompatPadding="false"
+            app:contentPadding="@dimen/_5sdp"
+            app:strokeColor="@color/black"
+            app:strokeWidth="@dimen/_1sdp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/date_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="30"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_25sdp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

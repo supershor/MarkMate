@@ -76,7 +76,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
 
         //setting values of recycler view using firebase
         databaseReference = firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org"));
-        databaseReference.child("list_sub_organization").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("list_of_sub_organization").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 arr.clear();
@@ -122,8 +122,12 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                                     hashMap.put("sub_org_desc",sub_org_desc.getText().toString());
                                     hashMap.put("starting_sr_no",starting_sr_no.getText().toString());
                                     hashMap.put("ending_sr_no",ending_sr_no.getText().toString());
-                                    hashMap.put("checkBox",checkBox.getText().toString());
-                                    databaseReference.child("list_sub_organization")
+                                    if (checkBox.isChecked()){
+                                        hashMap.put("checkBox","true");
+                                    }else {
+                                        hashMap.put("checkBox","false");
+                                    }
+                                    databaseReference.child("list_of_sub_organization")
                                             .child(sub_org_name.getText().toString())
                                             .setValue(hashMap)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -156,7 +160,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
     @Override
     public void onItemclick(int postion) {
         Log.e("ans clicked::::::", String.valueOf(postion));
-        Intent intent=new Intent(sub_organization.this, MainActivity.class);
+        Intent intent=new Intent(sub_organization.this, date_sheet.class);
         intent.putExtra("org",org);
         intent.putExtra("sub_org",arr.get(postion).name);
         startActivity(intent);

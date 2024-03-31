@@ -13,7 +13,16 @@
         android:theme="@style/Theme.MarkMate"
         tools:targetApi="31">
         <activity
+            android:name=".attendance_sheet_with_uid"
+            android:exported="false" />
+        <activity
             android:name=".sub_organization"
+            android:exported="false" />
+        <activity
+            android:name=".date_sheet"
+            android:exported="false" />
+        <activity
+            android:name=".attendance_sheet_without_uid"
             android:exported="false" />
         <activity
             android:name=".create_new_account_page"
