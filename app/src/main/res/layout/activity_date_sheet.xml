@@ -44,24 +44,37 @@
                     android:layout_height="@dimen/_20sdp"
                     android:background="@drawable/settings" />
             </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/dates_recycler"/>
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tap"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:textAllCaps="true"
-        android:background="@drawable/buttons_design"
-        android:textColor="@color/white"
-        android:text="Add new date"
-        />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:id="@+id/tap"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:textAllCaps="true"
+                android:background="@drawable/buttons_design"
+                android:textColor="@color/white"
+                android:text="Add"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dates_recycler"/>
+
+        </LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
