@@ -1,14 +1,18 @@
 package com.apify.markmate;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
@@ -36,12 +40,13 @@ public class date_sheet extends AppCompatActivity implements RecyclerViewInterfa
     RecyclerView recyclerView;
 
     int start;
+    String date_from_date_picker_input_date;
     int end;
     boolean check;
     ArrayList<String>dates;
-    EditText editText;
     FirebaseAuth firebaseAuth;
     AppCompatButton appCompatButton;
+    AppCompatButton settings;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     DatabaseReference sub_org_details;
@@ -71,9 +76,8 @@ public class date_sheet extends AppCompatActivity implements RecyclerViewInterfa
         org=intent.getStringExtra("org");
         sub_org=intent.getStringExtra("sub_org");
 
-        editText=findViewById(R.id.edit);
         appCompatButton=findViewById(R.id.tap);
-
+        settings=findViewById(R.id.settings_dates);
         dates=new ArrayList<>();
         firebaseDatabase=FirebaseDatabase.getInstance("https://markmate-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/");
         recyclerView=findViewById(R.id.dates_recycler);
@@ -97,79 +101,107 @@ public class date_sheet extends AppCompatActivity implements RecyclerViewInterfa
                 Log.e("ans error on 2",error.toString());
             }
         });
-
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(date_sheet.this,com.apify.markmate.settings.class));
+            }
+        });
         appCompatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("o---------ch","1");
-                databaseReference.child("attendance_dates").child(editText.getText().toString()).setValue("-1")
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(date_sheet.this,"date "+editText.getText().toString() + " added", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.e("ans-------------",e.toString());
-                                Toast.makeText(date_sheet.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                Log.e("o---------ch","2");
-                sub_org_details.addValueEventListener(new ValueEventListener() {
+                View v1= LayoutInflater.from(date_sheet.this).inflate(R.layout.date_picker,null);
+                DatePicker datePicker=v1.findViewById(R.id.datepicker);
+                AlertDialog.Builder alert=new AlertDialog.Builder(date_sheet.this);
+                alert.setView(v1);
+                alert.setCancelable(false);
+                alert.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Log.e("ansp-----------------",snapshot.toString());
-                        start= Integer.parseInt(Objects.requireNonNull(snapshot.child("starting_sr_no").getValue()).toString());
-                        end= Integer.parseInt(Objects.requireNonNull(snapshot.child("ending_sr_no").getValue()).toString());
-                        check= Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("checkBox").getValue()).toString());
+                    public void onClick(DialogInterface dialog, int which) {
+                        date_from_date_picker_input_date=datePicker.getDayOfMonth()+"_"+datePicker.getMonth()+"_"+datePicker.getYear();
 
-
-                        Log.e("o---------ch",3+""+start+"");
-                        Log.e("o---------ch",3+""+end+"");
-                        Log.e("o---------ch",3+""+check+"");
-                        if (check){
-                            Log.e("onClick:--------------","1");
-                            HashMap<String,HashMap<String,String>>hashMap=new HashMap<>();
-                            Log.e("adjf--------------",hashMap.toString());
-                            for (int i=start;i<=end;i++){
-                                HashMap<String,String>hs=new HashMap<>();
-                                hs.put("uid","uid");
-                                hs.put("checkbox","false");
-                                hashMap.put(String.valueOf(i),hs);
-                            }
-                            Log.e("onClick:--------------",hashMap.toString());
-                            databaseReference.child("attendance_sheet").child(editText.getText().toString()).setValue(hashMap)
+                        if (!dates.contains(date_from_date_picker_input_date)){
+                            Log.e("o---------ch","1");
+                            databaseReference.child("attendance_dates").child(date_from_date_picker_input_date).setValue("-1")
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(date_sheet.this,"date "+date_from_date_picker_input_date.replace("_","/") + " added", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
+                                            Log.e("ans-------------",e.toString());
                                             Toast.makeText(date_sheet.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                            Log.e("onClick:--------------","final");
+                            Log.e("o---------ch","2");
+                            sub_org_details.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    Log.e("ansp-----------------",snapshot.toString());
+                                    start= Integer.parseInt(Objects.requireNonNull(snapshot.child("starting_sr_no").getValue()).toString());
+                                    end= Integer.parseInt(Objects.requireNonNull(snapshot.child("ending_sr_no").getValue()).toString());
+                                    check= Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("checkBox").getValue()).toString());
+
+
+                                    Log.e("o---------ch",3+""+start+"");
+                                    Log.e("o---------ch",3+""+end+"");
+                                    Log.e("o---------ch",3+""+check+"");
+                                    if (check){
+                                        Log.e("onClick:--------------","1");
+                                        HashMap<String,HashMap<String,String>>hashMap=new HashMap<>();
+                                        Log.e("adjf--------------",hashMap.toString());
+                                        for (int i=start;i<=end;i++){
+                                            HashMap<String,String>hs=new HashMap<>();
+                                            hs.put("uid","uid");
+                                            hs.put("checkbox","false");
+                                            hashMap.put(String.valueOf(i),hs);
+                                        }
+                                        Log.e("onClick:--------------",hashMap.toString());
+                                        databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(date_sheet.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                        Log.e("onClick:--------------","final");
+                                    }
+                                    else {
+                                        HashMap<String,Boolean>hashMap=new HashMap<>();
+                                        for (int i=start;i<=end;i++){
+                                            hashMap.put(String.valueOf(i),false);
+                                        }
+                                        databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(date_sheet.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Toast.makeText(date_sheet.this,error.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                         else {
-                            HashMap<String,Boolean>hashMap=new HashMap<>();
-                            for (int i=start;i<=end;i++){
-                                hashMap.put(String.valueOf(i),false);
-                            }
-                            databaseReference.child("attendance_sheet").child(editText.getText().toString()).setValue(hashMap)
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(date_sheet.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                            Toast.makeText(date_sheet.this, "date already exists", Toast.LENGTH_SHORT).show();
                         }
-                    }
 
+                    }
+                }).setNegativeButton("CANCE", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(date_sheet.this,error.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
-
+                alert.show();
             }
         });
     }

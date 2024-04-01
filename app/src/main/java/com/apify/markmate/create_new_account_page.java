@@ -83,7 +83,7 @@ public class create_new_account_page extends AppCompatActivity {
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isEmpty()){
+                if(isEmpty() && contains_word(password.getText().toString())){
                     Toast.makeText(create_new_account_page.this, issue1, Toast.LENGTH_SHORT).show();
                 }else{
                     firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -149,5 +149,16 @@ public class create_new_account_page extends AppCompatActivity {
         else{
             return false;
         }
+    }
+    private boolean contains_word(String string) {
+        if (string.length()<=0){
+            issue1="Password Empty";
+            return true;
+        }
+        if (string.contains(" ")){
+            issue1="Password cant contains spaces";
+            return true;
+        }
+        return false;
     }
 }

@@ -145,9 +145,6 @@ public class login_page extends AppCompatActivity {
         }else if (account.getText().length()<=0) {
             issue="Please enter full account";
             return true;
-        }else if (password.getText().length()<=8) {
-            issue="Please enter full password";
-            return true;
         }
         return false;
     }

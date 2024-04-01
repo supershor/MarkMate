@@ -39,6 +39,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
     FirebaseDatabase firebaseDatabase;
     AppCompatButton appCompatButton;
     FirebaseAuth firebaseAuth;
+    AppCompatButton settings;
     DatabaseReference databaseReference;
     ArrayList<list> arr;
     RecyclerView recyclerView;
@@ -68,6 +69,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
         Intent intent=getIntent();
         org=intent.getStringExtra("org");
         arr=new ArrayList<>();
+        settings=findViewById(R.id.settings_sub_org);
         appCompatButton=findViewById(R.id.add_new_sub_organization);
         firebaseDatabase=FirebaseDatabase.getInstance("https://markmate-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/");
         recyclerView=findViewById(R.id.recycler_sub_organization_list);
@@ -153,6 +155,14 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                             }
                         });
                 sub_org_name_desc_input_taker.show();
+            }
+        });
+
+        //settings
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(sub_organization.this,settings.class));
             }
         });
     }

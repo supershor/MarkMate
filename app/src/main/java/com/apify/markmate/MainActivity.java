@@ -38,6 +38,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface{
     AppCompatButton appCompatButton;
+    AppCompatButton settings;
     FirebaseDatabase database;
     DatabaseReference firebase;
     ArrayList<list> arr;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         database = FirebaseDatabase.getInstance("https://markmate-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/");
         firebase = database.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid());
         arr = new ArrayList<>();
+        settings=findViewById(R.id.settings_org);
         RecyclerView recyclerView = findViewById(R.id.recycler_organization_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         appCompatButton=findViewById(R.id.add_new_organization);
@@ -131,6 +133,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                             }
                         });
                 org_name_input_alert_dialog.show();
+            }
+        });
+
+        //settings
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,settings.class));
             }
         });
     }
