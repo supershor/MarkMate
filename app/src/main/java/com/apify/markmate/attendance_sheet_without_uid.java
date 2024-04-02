@@ -239,11 +239,69 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
 
     @Override
     public void onItemclick(int postion,int i) {
+
         if(i==1){
+            Log.e("hit ---------------","1");
             databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org")).child("attendance_sheet").child(dates_arr.get(postion));
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.e("not null------------------",snapshot.toString());
+                    if (snapshot.getValue()==null){
+                        databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
+                        sub_org_details.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Log.e("ansp-----------------",snapshot.toString());
+                                start= Integer.parseInt(Objects.requireNonNull(snapshot.child("starting_sr_no").getValue()).toString());
+                                end= Integer.parseInt(Objects.requireNonNull(snapshot.child("ending_sr_no").getValue()).toString());
+                                check= Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("checkBox").getValue()).toString());
+
+
+                                Log.e("o---------ch",3+""+start+"");
+                                Log.e("o---------ch",3+""+end+"");
+                                Log.e("o---------ch",3+""+check+"");
+                                if (check){
+                                    Log.e("onClick:--------------","1");
+                                    HashMap<String, HashMap<String,String>>hashMap=new HashMap<>();
+                                    Log.e("adjf--------------",hashMap.toString());
+                                    for (int i=start;i<=end;i++){
+                                        HashMap<String,String>hs=new HashMap<>();
+                                        hs.put("uid","uid");
+                                        hs.put("checkbox","false");
+                                        hashMap.put(String.valueOf(i),hs);
+                                    }
+                                    Log.e("onClick:--------------",hashMap.toString());
+                                    databaseReference.child("attendance_sheet").child(dates_arr.get(postion)).setValue(hashMap)
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(attendance_sheet_without_uid.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                    Log.e("onClick:--------------","final");
+                                }
+                                else {
+                                    HashMap<String,Boolean>hashMap=new HashMap<>();
+                                    for (int i=start;i<=end;i++){
+                                        hashMap.put(String.valueOf(i),false);
+                                    }
+                                    databaseReference.child("attendance_sheet").child(dates_arr.get(postion)).setValue(hashMap)
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(attendance_sheet_without_uid.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(attendance_sheet_without_uid.this,error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                     attendance_arr.clear();
                     for (DataSnapshot ds:snapshot.getChildren()){
                         attendance_arr.add(new attendance_data_without_uid(ds.getKey(),Boolean.valueOf(ds.getValue().toString())));
@@ -262,18 +320,7 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
             attendance_arr.get(postion).present=!attendance_arr.get(postion).present;
             Log.e("ans clicked",postion+"");
         }
-        /*
-        databaseReference.child(attendance.get(postion).sr_no).setValue(!attendance.get(postion).present).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("ans failed",e.toString());
-            }
-        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Log.e("ans success","");
-            }
-        });
-         */
+
+
     }
 }

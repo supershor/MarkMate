@@ -178,8 +178,6 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                                     start= Integer.parseInt(Objects.requireNonNull(snapshot.child("starting_sr_no").getValue()).toString());
                                     end= Integer.parseInt(Objects.requireNonNull(snapshot.child("ending_sr_no").getValue()).toString());
                                     check= Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("checkBox").getValue()).toString());
-
-
                                     Log.e("o---------ch", 3+""+start);
                                     Log.e("o---------ch", 3+""+end);
                                     Log.e("o---------ch", 3+""+check);
@@ -244,6 +242,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
     public void onItemclick(int postion,int i) {
         if (i==1){
             databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org")).child("attendance_sheet").child(dates_arr.get(postion));
+            Log.e("hit ---------------","1");
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
