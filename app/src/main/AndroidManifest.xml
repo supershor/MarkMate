@@ -22,9 +22,6 @@
             android:name=".sub_organization"
             android:exported="false" />
         <activity
-            android:name=".date_sheet"
-            android:exported="false" />
-        <activity
             android:name=".attendance_sheet_without_uid"
             android:exported="false" />
         <activity
