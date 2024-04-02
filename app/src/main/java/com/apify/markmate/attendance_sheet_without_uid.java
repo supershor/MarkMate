@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -69,6 +70,9 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //setting status bar color to dark green for better look
+        getWindow().setStatusBarColor(ContextCompat.getColor(attendance_sheet_without_uid.this,R.color.dark_green));
 
         //checking if the user is signed in or not and if not directing him to either login or signup
         firebaseAuth=FirebaseAuth.getInstance();

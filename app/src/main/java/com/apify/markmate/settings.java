@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.net.MailTo;
 import androidx.core.view.ViewCompat;
@@ -41,6 +42,9 @@ public class settings extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //setting status bar color to dark green for better look
+        getWindow().setStatusBarColor(ContextCompat.getColor(settings.this,R.color.dark_green));
 
         //checking if the user is signed in or not if not the redirecting him to loading page
         firebaseAuth=FirebaseAuth.getInstance();

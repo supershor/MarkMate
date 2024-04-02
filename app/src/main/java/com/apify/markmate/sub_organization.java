@@ -16,6 +16,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -38,6 +39,10 @@ import java.util.Objects;
 public class sub_organization extends AppCompatActivity implements RecyclerViewInterface{
     FirebaseDatabase firebaseDatabase;
     AppCompatButton appCompatButton;
+    EditText sub_org_name;
+    EditText starting_sr_no;
+    EditText sub_org_desc;
+    EditText ending_sr_no;
     FirebaseAuth firebaseAuth;
     AppCompatButton settings;
     DatabaseReference databaseReference;
@@ -45,6 +50,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
     DatabaseReference sub_org_details;
 
     RecyclerView recyclerView;
+    String issues;
     String org;
 
     @SuppressLint("MissingInflatedId")
@@ -58,6 +64,9 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //setting status bar color to dark green for better look
+        getWindow().setStatusBarColor(ContextCompat.getColor(sub_organization.this,R.color.dark_green));
 
         //checking if the user is signed in or not and if not directing him to either login or signup
         firebaseAuth=FirebaseAuth.getInstance();
@@ -106,10 +115,10 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
 
                 View v1= LayoutInflater.from(sub_organization.this).inflate(R.layout.sub_org_name_desc_alert_dialog_view,null);
 
-                EditText sub_org_name =v1.findViewById(R.id.sub_org_name_alert_dialog);
-                EditText sub_org_desc =v1.findViewById(R.id.sub_org_desc_alert_dialog);
-                EditText starting_sr_no =v1.findViewById(R.id.starting_sr_no);
-                EditText ending_sr_no =v1.findViewById(R.id.ending_sr_no);
+                sub_org_name =v1.findViewById(R.id.sub_org_name_alert_dialog);
+                sub_org_desc =v1.findViewById(R.id.sub_org_desc_alert_dialog);
+                starting_sr_no =v1.findViewById(R.id.starting_sr_no);
+                ending_sr_no =v1.findViewById(R.id.ending_sr_no);
                 CheckBox checkBox=v1.findViewById(R.id.has_unique_id_checkbox);
 
                 final AlertDialog.Builder sub_org_name_desc_input_taker =new AlertDialog.Builder(sub_organization.this,R.style.Alert_Dialog_BAckground);
@@ -119,7 +128,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if(sub_org_name.getText()!=null&& !sub_org_name.getText().toString().isEmpty() &&sub_org_desc.getText()!=null&& !sub_org_desc.getText().toString().isEmpty()&&starting_sr_no.getText()!=null&& !starting_sr_no.getText().toString().isEmpty() &&ending_sr_no.getText()!=null&& !ending_sr_no.getText().toString().isEmpty()){
+                                if(check_fields()){
                                     HashMap<String,String> hashMap=new HashMap<>();
                                     hashMap.put("sub_org_name",sub_org_name.getText().toString());
                                     hashMap.put("sub_org_desc",sub_org_desc.getText().toString());
@@ -146,7 +155,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                                                 }
                                             });
                                 }else{
-                                    Toast.makeText(sub_organization.this,"Empty field", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(sub_organization.this,issues, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -167,7 +176,47 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
             }
         });
     }
-
+    public boolean check_fields(){
+        if(sub_org_name.getText()==null|| sub_org_name.getText().toString().isEmpty() ||sub_org_desc.getText()==null|| sub_org_desc.getText().toString().isEmpty()||starting_sr_no.getText()==null|| starting_sr_no.getText().toString().isEmpty() ||ending_sr_no.getText()==null|| ending_sr_no.getText().toString().isEmpty()){
+            issues="Empty fields";
+            return false;
+        }
+        Boolean checked=false;
+        String sub_org=sub_org_name.getText().toString();
+        String sub_desc=sub_org_desc.getText().toString();
+        for (int i = 0; i <sub_org.length(); i++) {
+            if (sub_org.charAt(i)!=' '){
+                checked=true;
+            }
+        }
+        for (int i = 0; i <sub_desc.length(); i++) {
+            if (sub_desc.charAt(i)!=' '){
+                if (checked){
+                    if (check_int_fields()){
+                        return true;
+                    }else {
+                        return false;
+                    }
+                }
+            }
+        }
+        issues="Either one of the filed must contain a character";
+        return false;
+    }
+    public boolean check_int_fields(){
+        try {
+            int i=Integer.parseInt(starting_sr_no.getText().toString());
+            int j=Integer.parseInt(ending_sr_no.getText().toString());
+        }catch (Exception e){
+            issues="Either one of the fields has non Integer character";
+            return false;
+        }
+        if (Integer.parseInt(starting_sr_no.getText().toString())>Integer.parseInt(ending_sr_no.getText().toString())){
+            issues="Starting sr.no cant be greater then ending sr.no";
+            return false;
+        }
+        return true;
+    }
     @Override
     public void onItemclick(int postion) {
         Log.e("ans clicked::::::", String.valueOf(postion));

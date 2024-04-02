@@ -54,12 +54,14 @@
             android:layout_height="wrap_content">
             <EditText
                 android:layout_weight="1"
-                android:padding="@dimen/_2sdp"
+                android:padding="@dimen/_5sdp"
                 android:layout_width="@dimen/_100sdp"
+                android:inputType="number"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/black"
                 android:textAlignment="center"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:hint="Start no."
                 android:layout_marginLeft="@dimen/_30sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:singleLine="true"
@@ -82,7 +84,9 @@
                 android:textSize="@dimen/_16sdp"/>
             <EditText
                 android:layout_weight="1"
-                android:padding="@dimen/_2sdp"
+                android:padding="@dimen/_5sdp"
+                android:hint="End no."
+                android:inputType="number"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/black"

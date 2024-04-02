@@ -42,15 +42,17 @@
                     android:layout_height="@dimen/_20sdp"
                     android:background="@drawable/settings" />
             </RelativeLayout>
-            <androidx.core.widget.NestedScrollView
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:id="@+id/dates_recycler_at_attendance_sheet_with_uid"/>
+
                     <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_gravity="center"
                         android:layout_height="wrap_content"
                         android:id="@+id/add_date_at_attendance_sheet_with_uid"
@@ -61,18 +63,8 @@
                         android:textAllCaps="true"
                         android:background="@drawable/buttons_design"
                         android:textColor="@color/white"
-                        android:text="Add"
+                        android:text="Add new date"
                         />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/dates_recycler_at_attendance_sheet_with_uid"/>
-
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/attendance_layout_with_uid"

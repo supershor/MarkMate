@@ -15,6 +15,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -41,7 +42,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     AppCompatButton settings;
     FirebaseDatabase database;
     DatabaseReference firebase;
+    EditText org_name;
+    EditText org_desc;
     ArrayList<list> arr;
+    String issues;
     FirebaseAuth firebaseAuth;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //setting status bar color to dark green for better look
+        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.dark_green));
 
         //checking if the user is signed in or not and if not directing him to either login or signup
         firebaseAuth=FirebaseAuth.getInstance();
@@ -97,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             @Override
             public void onClick(View v) {
                 View v1= LayoutInflater.from(MainActivity.this).inflate(R.layout.org_name_desc_alert_dialog_view,null);
-                EditText org_name =v1.findViewById(R.id.org_name_alert_dialog);
-                EditText org_desc =v1.findViewById(R.id.org_desc_alert_dialog);
+                org_name =v1.findViewById(R.id.org_name_alert_dialog);
+                org_desc =v1.findViewById(R.id.org_desc_alert_dialog);
                 final AlertDialog.Builder org_name_input_alert_dialog =new AlertDialog.Builder(MainActivity.this,R.style.Alert_Dialog_BAckground);
                 org_name_input_alert_dialog.setView(v1);
                 org_name_input_alert_dialog.setTitle("Enter organization name")
@@ -106,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if(org_name.getText()!=null&& !org_name.getText().toString().isEmpty() &&org_desc.getText()!=null&& !org_desc.getText().toString().isEmpty()){
+                                if(check_fields()){
                                     firebase.child("list_of_organizations")
                                             .child(org_name.getText().toString())
                                             .setValue(org_desc.getText().toString())
@@ -123,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                                                 }
                                             });
                                 }else{
-                                    Toast.makeText(MainActivity.this,"Empty field", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this,issues, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -143,6 +150,29 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 startActivity(new Intent(MainActivity.this,settings.class));
             }
         });
+    }
+    public boolean check_fields(){
+        Boolean checked=false;
+        if(org_name.getText()==null|| org_name.getText().toString().isEmpty() ||org_desc.getText()==null|| org_desc.getText().toString().isEmpty()){
+            issues="Empty fields";
+            return false;
+        }
+        String org=org_name.getText().toString();
+        String desc=org_desc.getText().toString();
+        for (int i = 0; i <org.length(); i++) {
+            if (org.charAt(i)!=' '){
+                checked=true;
+            }
+        }
+        for (int i = 0; i <desc.length(); i++) {
+            if (desc.charAt(i)!=' '){
+                if (checked){
+                    return true;
+                }
+            }
+        }
+        issues="Either one of the filed must contain a character";
+        return false;
     }
 
     //on item click being override
