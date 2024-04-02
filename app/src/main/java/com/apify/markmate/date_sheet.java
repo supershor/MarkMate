@@ -36,7 +36,7 @@ import java.util.Objects;
 
 import javax.security.auth.login.LoginException;
 
-public class date_sheet extends AppCompatActivity implements RecyclerViewInterface{
+public class date_sheet extends AppCompatActivity implements RecyclerViewInterface_date_attendance{
     RecyclerView recyclerView;
 
     int start;
@@ -87,7 +87,9 @@ public class date_sheet extends AppCompatActivity implements RecyclerViewInterfa
         databaseReference.child("attendance_dates").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dates.clear();
+                if (dates.size()>=0){
+                    dates.clear();
+                }
                 for (DataSnapshot ds:snapshot.getChildren()){
                     dates.add(ds.getKey());
                 }
@@ -206,7 +208,7 @@ public class date_sheet extends AppCompatActivity implements RecyclerViewInterfa
         });
     }
     @Override
-    public void onItemclick(int postion) {
+    public void onItemclick(int postion,int i) {
         sub_org_details.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

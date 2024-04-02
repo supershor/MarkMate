@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class dates_recycler_view extends RecyclerView.Adapter<dates_recycler_view.ViewHolder> {
     Context context;
     ArrayList<String>arr;
-    private final RecyclerViewInterface recyclerViewInterface;
-    public dates_recycler_view(Context context, ArrayList<String>arr, RecyclerViewInterface recyclerViewInterface){
+    private final RecyclerViewInterface_date_attendance recyclerViewInterface;
+    public dates_recycler_view(Context context, ArrayList<String>arr, RecyclerViewInterface_date_attendance recyclerViewInterface){
         this.context=context;
         this.arr=arr;
         this.recyclerViewInterface= recyclerViewInterface;
@@ -42,7 +42,7 @@ public class dates_recycler_view extends RecyclerView.Adapter<dates_recycler_vie
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView date;
-        public ViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
+        public ViewHolder(@NonNull View itemView,RecyclerViewInterface_date_attendance recyclerViewInterface) {
             super(itemView);
             date=itemView.findViewById(R.id.date_info);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +51,7 @@ public class dates_recycler_view extends RecyclerView.Adapter<dates_recycler_vie
                     if(recyclerViewInterface!=null){
                         int position=getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onItemclick(position);
+                            recyclerViewInterface.onItemclick(position,1);
                         }
                     }
                 }

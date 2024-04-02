@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class attendance_recycler_view_without_uid extends RecyclerView.Adapter<attendance_recycler_view_without_uid.ViewHolder> {
     Context context;
     ArrayList<attendance_data_without_uid>arr;
-    private final RecyclerViewInterface recyclerViewInterface;
-    public attendance_recycler_view_without_uid(Context context, ArrayList<attendance_data_without_uid>arr, RecyclerViewInterface recyclerViewInterface){
+    private final RecyclerViewInterface_date_attendance recyclerViewInterface;
+    public attendance_recycler_view_without_uid(Context context, ArrayList<attendance_data_without_uid>arr, RecyclerViewInterface_date_attendance recyclerViewInterface){
         this.context=context;
         this.arr=arr;
         this.recyclerViewInterface= recyclerViewInterface;
@@ -45,7 +45,7 @@ public class attendance_recycler_view_without_uid extends RecyclerView.Adapter<a
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView sr_no;
         CheckBox checkBox;
-        public ViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
+        public ViewHolder(@NonNull View itemView,RecyclerViewInterface_date_attendance recyclerViewInterface) {
             super(itemView);
             sr_no=itemView.findViewById(R.id.sr_no_attendance_sheet_with_out_uid);
             checkBox=itemView.findViewById(R.id.checkbox_attendance_sheet_with_out_uid);
@@ -56,7 +56,7 @@ public class attendance_recycler_view_without_uid extends RecyclerView.Adapter<a
                         int position=getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
                             checkBox.setChecked(!checkBox.isChecked());
-                            recyclerViewInterface.onItemclick(position);
+                            recyclerViewInterface.onItemclick(position,2);
                         }
                     }
                 }
@@ -67,7 +67,7 @@ public class attendance_recycler_view_without_uid extends RecyclerView.Adapter<a
                     if(recyclerViewInterface!=null){
                         int position=getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onItemclick(position);
+                            recyclerViewInterface.onItemclick(position,2);
                         }
                     }
                 }

@@ -42,6 +42,8 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
     AppCompatButton settings;
     DatabaseReference databaseReference;
     ArrayList<list> arr;
+    DatabaseReference sub_org_details;
+
     RecyclerView recyclerView;
     String org;
 
@@ -74,7 +76,6 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
         firebaseDatabase=FirebaseDatabase.getInstance("https://markmate-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/");
         recyclerView=findViewById(R.id.recycler_sub_organization_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
 
         //setting values of recycler view using firebase
         databaseReference = firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org"));
@@ -170,9 +171,27 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
     @Override
     public void onItemclick(int postion) {
         Log.e("ans clicked::::::", String.valueOf(postion));
-        Intent intent=new Intent(sub_organization.this, date_sheet.class);
-        intent.putExtra("org",org);
-        intent.putExtra("sub_org",arr.get(postion).name);
-        startActivity(intent);
+        sub_org_details=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(org).child("list_of_sub_organization").child(arr.get(postion).name);
+        sub_org_details.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.e("ansp-----------------", snapshot.toString());
+                if (!Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("checkBox").getValue()).toString())){
+                    Intent intent=new Intent(sub_organization.this, attendance_sheet_without_uid.class);
+                    intent.putExtra("org",org);
+                    intent.putExtra("sub_org",arr.get(postion).name);
+                    startActivity(intent);
+                }else {
+                    Intent intent=new Intent(sub_organization.this, date_sheet.class);
+                    intent.putExtra("org",org);
+                    intent.putExtra("sub_org",arr.get(postion).name);
+                    startActivity(intent);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(sub_organization.this,error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
