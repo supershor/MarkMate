@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class attendance_recycler_view_with_uid extends RecyclerView.Adapter<attendance_recycler_view_with_uid.ViewHolder> {
     Context context;
     ArrayList<attendance_data_with_uid> arr;
-    private final RecyclerViewInterface recyclerViewInterface;
-    public attendance_recycler_view_with_uid(Context context, ArrayList<attendance_data_with_uid>arr, RecyclerViewInterface recyclerViewInterface){
+    private final RecyclerViewInterface_date_attendance recyclerViewInterface;
+    public attendance_recycler_view_with_uid(Context context, ArrayList<attendance_data_with_uid>arr, RecyclerViewInterface_date_attendance recyclerViewInterface){
         this.context=context;
         this.arr=arr;
         this.recyclerViewInterface= recyclerViewInterface;
@@ -46,7 +46,7 @@ public class attendance_recycler_view_with_uid extends RecyclerView.Adapter<atte
         TextView sr_no;
         TextView uid;
         CheckBox checkBox;
-        public ViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
+        public ViewHolder(@NonNull View itemView,RecyclerViewInterface_date_attendance recyclerViewInterface) {
             super(itemView);
             sr_no=itemView.findViewById(R.id.sr_no_attendance_sheet_with_uid);
             uid=itemView.findViewById(R.id.uid_attendance_sheet_with_uid);
@@ -58,7 +58,7 @@ public class attendance_recycler_view_with_uid extends RecyclerView.Adapter<atte
                         int position=getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
                             checkBox.setChecked(!checkBox.isChecked());
-                            recyclerViewInterface.onItemclick(position);
+                            recyclerViewInterface.onItemclick(position,2);
                         }
                     }
                 }
@@ -69,7 +69,7 @@ public class attendance_recycler_view_with_uid extends RecyclerView.Adapter<atte
                     if(recyclerViewInterface!=null){
                         int position=getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onItemclick(position);
+                            recyclerViewInterface.onItemclick(position,2);
                         }
                     }
                 }

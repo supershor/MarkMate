@@ -182,7 +182,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                     intent.putExtra("sub_org",arr.get(postion).name);
                     startActivity(intent);
                 }else {
-                    Intent intent=new Intent(sub_organization.this, date_sheet.class);
+                    Intent intent=new Intent(sub_organization.this, attendance_sheet_with_uid.class);
                     intent.putExtra("org",org);
                     intent.putExtra("sub_org",arr.get(postion).name);
                     startActivity(intent);

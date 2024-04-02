@@ -8,78 +8,173 @@
     android:orientation="vertical"
     android:background="@color/background"
     tools:context=".attendance_sheet_with_uid">
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <com.google.android.material.card.MaterialCardView
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:elevation="@dimen/_2sdp"
-                    android:visibility="visible"
-                    app:cardBackgroundColor="@color/light"
-                    app:cardCornerRadius="@dimen/_50sdp"
-                    app:cardUseCompatPadding="false"
-                    app:contentPadding="@dimen/_5sdp"
-                    app:strokeColor="@color/black"
-                    app:strokeWidth="@dimen/_1sdp">
+                    android:text="DATE SHEET"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
+                    android:layout_marginTop="@dimen/_60sdp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_24sdp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/black"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginTop="@dimen/_66sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:id="@+id/settings_at_attendance_sheet_with_uid"
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/settings" />
+            </RelativeLayout>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/add_date_at_attendance_sheet_with_uid"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:textAllCaps="true"
+                        android:background="@drawable/buttons_design"
+                        android:textColor="@color/white"
+                        android:text="Add"
+                        />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dates_recycler_at_attendance_sheet_with_uid"/>
 
-                    <LinearLayout
+                </LinearLayout>
+            </HorizontalScrollView>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/attendance_layout_with_uid"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_3sdp"
-                            android:layout_weight="1"
-                            android:singleLine="true"
-                            android:text="SR.NO"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_20sdp" />
-                        <TextView
+                            android:text="ATTENDANCE SHEET"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:textAlignment="viewStart"
+                            android:layout_marginTop="@dimen/_40sdp"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_24sdp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:textColor="@color/black"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_marginTop="@dimen/_46sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:id="@+id/attendance_settings_at_attendance_sheet_with_uid"
+                            android:layout_marginLeft="@dimen/_30sdp"
+                            android:layout_marginBottom="@dimen/_30sdp"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_height="@dimen/_20sdp"
+                            android:background="@drawable/settings" />
+                    </RelativeLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:elevation="@dimen/_2sdp"
+                        android:visibility="visible"
+                        app:cardBackgroundColor="@color/light"
+                        app:cardCornerRadius="@dimen/_50sdp"
+                        app:cardUseCompatPadding="false"
+                        app:contentPadding="@dimen/_5sdp"
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="@dimen/_1sdp">
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_3sdp"
-                            android:layout_weight="1"
-                            android:singleLine="true"
-                            android:text="UID"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_20sdp" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_3sdp"
-                            android:layout_weight="1"
-                            android:singleLine="true"
-                            android:text="ATTENDANCE"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_20sdp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:text="SR.NO"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_20sdp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:text="UID"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_20sdp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:text="ATTENDANCE"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_20sdp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:overScrollMode="always"
+                    android:layout_width="match_parent"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/attendance_recycler"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/buttons_design"
+                    android:text="SAVE"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:layout_margin="@dimen/_20sdp"
+                    android:id="@+id/save_attendance_with_uid"/>
             </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/attendance_recycler"/>
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/buttons_design"
-                android:text="SAVE"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:layout_margin="@dimen/_10sdp"
-                android:id="@+id/save_attendance_with_uid"/>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

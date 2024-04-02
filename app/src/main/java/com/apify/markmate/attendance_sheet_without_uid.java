@@ -56,7 +56,7 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
     LinearLayout layout;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    DatabaseReference date_refreance;
+    DatabaseReference date_reference;
     Intent intent;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -90,7 +90,7 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
         save_attendance_without_uid=findViewById(R.id.save_attendance_without_uid);
         firebaseDatabase=FirebaseDatabase.getInstance("https://markmate-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/");
         sub_org_details=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("list_of_sub_organization").child(intent.getStringExtra("sub_org"));
-        date_refreance=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
+        date_reference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
         recyclerView_attendance=findViewById(R.id.attendance_recycler);
         recyclerView_attendance.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_dates=findViewById(R.id.dates_recycler_at_attendance_sheet_without_uid);
@@ -109,9 +109,10 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
                 }
             }
         });
-        date_refreance.child("attendance_dates").addValueEventListener(new ValueEventListener() {
+        date_reference.child("attendance_dates").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.e("updated----------------------",snapshot.toString());
                 dates_arr.clear();
                 for (DataSnapshot ds:snapshot.getChildren()){
                     dates_arr.add(ds.getKey());
@@ -135,6 +136,7 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
         add_date_at_attendance_sheet_without_uid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                 View v1= LayoutInflater.from(attendance_sheet_without_uid.this).inflate(R.layout.date_picker,null);
                 DatePicker datePicker=v1.findViewById(R.id.datepicker);
                 AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_without_uid.this);
@@ -143,10 +145,11 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
                 alert.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                         date_from_date_picker_input_date=datePicker.getDayOfMonth()+"_"+datePicker.getMonth()+"_"+datePicker.getYear();
                         if (!dates_arr.contains(date_from_date_picker_input_date)){
                             Log.e("o---------ch","1");
-                            date_refreance.child("attendance_dates").child(date_from_date_picker_input_date).setValue("-1")
+                            date_reference.child("attendance_dates").child(date_from_date_picker_input_date).setValue("-1")
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
