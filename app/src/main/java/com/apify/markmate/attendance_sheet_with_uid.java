@@ -40,7 +40,14 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
     RecyclerView recyclerView_attendance;
     RecyclerView recyclerView_dates;
     boolean check;
+    AppCompatButton attendance_settings;
+    AppCompatButton change_uid;
+    AppCompatButton count_total_attendance;
+    AppCompatButton present_all_attendance;
+    AppCompatButton reset_all_attendance;
+    AppCompatButton absent_all_attendance;
     Intent intent;
+    int current_date_index;
     ArrayList<attendance_data_with_uid> attendance_arr;
 
     AppCompatButton settings_at_attendance_sheet_with_uid;
@@ -237,16 +244,154 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
             }
         });
 
+        attendance_settings=findViewById(R.id.attendance_settings_at_attendance_sheet_with_uid);
+        attendance_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View v1=LayoutInflater.from(attendance_sheet_with_uid.this).inflate(R.layout.attendance_settings_layout,null);
+                change_uid=v1.findViewById(R.id.change_uid);
+                count_total_attendance=v1.findViewById(R.id.count_total_attendance);
+                reset_all_attendance=v1.findViewById(R.id.reset_all_attendance);
+                present_all_attendance=v1.findViewById(R.id.present_all_attendance);
+                absent_all_attendance=v1.findViewById(R.id.absent_all_attendance);
+                AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_with_uid.this);
+                alert.setView(v1);
+                alert.setCancelable(true);
+                alert.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                change_uid.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(attendance_sheet_with_uid.this, "1", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                count_total_attendance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(attendance_sheet_with_uid.this, "2", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                reset_all_attendance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org")).child("attendance_sheet").child(dates_arr.get(current_date_index));
+                        Log.e("hit ---------------","1");
+                        databaseReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Log.e("ppppppppppp>>>>>>>>>>>>>>>>",snapshot.toString());
+                                attendance_arr.clear();
+                                Log.e("on error>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",snapshot.toString());
+                                for (DataSnapshot ds:snapshot.getChildren()){
+                                    Log.e("on error--------------------------",ds.toString());
+                                    attendance_arr.add(new attendance_data_with_uid(ds.getKey(),Boolean.valueOf(ds.child("checkbox").getValue().toString()),ds.child("uid").getValue().toString()));
+                                }
+                                attendance_recycler_view_with_uid r=new attendance_recycler_view_with_uid(attendance_sheet_with_uid.this,attendance_arr,attendance_sheet_with_uid.this::onItemclick);
+                                recyclerView_attendance.setAdapter(r);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.e("ans error on 2",error.toString());
+                                Toast.makeText(attendance_sheet_with_uid.this,error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        Toast.makeText(attendance_sheet_with_uid.this, "Reset all done", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                present_all_attendance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (int i=0;i<attendance_arr.size();i++){
+                            attendance_arr.get(i).present=true;
+                        }
+                        attendance_recycler_view_with_uid r=new attendance_recycler_view_with_uid(attendance_sheet_with_uid.this,attendance_arr,attendance_sheet_with_uid.this::onItemclick);
+                        recyclerView_attendance.setAdapter(r);
+                        Toast.makeText(attendance_sheet_with_uid.this, "Present all done", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                absent_all_attendance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (int i=0;i<attendance_arr.size();i++){
+                            attendance_arr.get(i).present=false;
+                        }
+                        attendance_recycler_view_with_uid r=new attendance_recycler_view_with_uid(attendance_sheet_with_uid.this,attendance_arr,attendance_sheet_with_uid.this::onItemclick);
+                        recyclerView_attendance.setAdapter(r);
+                        Toast.makeText(attendance_sheet_with_uid.this, "Absent all done", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alert.show();
+            }
+        });
+        
     }
     @Override
     public void onItemclick(int postion,int i) {
         if (i==1){
+            current_date_index=postion;
             databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org")).child("attendance_sheet").child(dates_arr.get(postion));
             Log.e("hit ---------------","1");
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Log.e("ppppppppppp>>>>>>>>>>>>>>>>",snapshot.toString());
+                    if (snapshot.getValue()==null){
+                        databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
+                        sub_org_details.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Log.e("ansp-----------------",snapshot.toString());
+                                start= Integer.parseInt(Objects.requireNonNull(snapshot.child("starting_sr_no").getValue()).toString());
+                                end= Integer.parseInt(Objects.requireNonNull(snapshot.child("ending_sr_no").getValue()).toString());
+                                check= Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("checkBox").getValue()).toString());
+                                Log.e("o---------ch", 3+""+start);
+                                Log.e("o---------ch", 3+""+end);
+                                Log.e("o---------ch", 3+""+check);
+                                if (check){
+                                    Log.e("onClick:--------------","1");
+                                    HashMap<String, HashMap<String,String>>hashMap=new HashMap<>();
+                                    Log.e("adjf--------------",hashMap.toString());
+                                    for (int i=start;i<=end;i++){
+                                        HashMap<String,String>hs=new HashMap<>();
+                                        hs.put("uid","uid");
+                                        hs.put("checkbox","false");
+                                        hashMap.put(String.valueOf(i),hs);
+                                    }
+                                    Log.e("onClick:--------------",hashMap.toString());
+                                    databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(attendance_sheet_with_uid.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                    Log.e("onClick:--------------","final");
+                                }
+                                else {
+                                    HashMap<String,Boolean>hashMap=new HashMap<>();
+                                    for (int i=start;i<=end;i++){
+                                        hashMap.put(String.valueOf(i),false);
+                                    }
+                                    databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(attendance_sheet_with_uid.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(attendance_sheet_with_uid.this,error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                     attendance_arr.clear();
                     Log.e("on error>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",snapshot.toString());
                     for (DataSnapshot ds:snapshot.getChildren()){

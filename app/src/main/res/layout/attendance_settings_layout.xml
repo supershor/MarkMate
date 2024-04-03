@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/change_uid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttons_design"
+        android:text="CHANGE UID"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:textAlignment="center"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/count_total_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttons_design"
+        android:text="Count total attendance"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:textAlignment="center"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:id="@+id/reset_all_attendance"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttons_design"
+        android:text="reset all attendance"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:textAlignment="center"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/present_all_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttons_design"
+        android:text="Present all attendance"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:textAlignment="center"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:id="@+id/absent_all_attendance"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttons_design"
+        android:text="Absent all attendance"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:textAlignment="center"/>
+</LinearLayout>
