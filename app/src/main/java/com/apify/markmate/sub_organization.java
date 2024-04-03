@@ -234,7 +234,25 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                     Intent intent=new Intent(sub_organization.this, attendance_sheet_with_uid.class);
                     intent.putExtra("org",org);
                     intent.putExtra("sub_org",arr.get(postion).name);
-                    startActivity(intent);
+                    if(snapshot.child("uid_hashmap").getValue()==null){
+                        HashMap<String,String>uid_hashmap=new HashMap<>();
+                        int start=Integer.parseInt(snapshot.child("starting_sr_no").getValue().toString());
+                        int end=Integer.parseInt(snapshot.child("ending_sr_no").getValue().toString());
+                        for (int i = start; i <=end; i++) {
+                            uid_hashmap.put(String.valueOf(i),"--uid--");
+                        }
+                        Log.e("onDataChange:---------",uid_hashmap.toString());
+                        intent.putExtra("uid_hashmap",uid_hashmap);
+                        startActivity(intent);
+                    }else{
+                        HashMap<String,String>uid_hashmap=new HashMap<>();
+                        for (DataSnapshot ds:snapshot.child("uid_hashmap").getChildren()){
+                            uid_hashmap.put(ds.getKey(),ds.getValue().toString());
+                        }
+                        Log.e("onDataChange:---------",uid_hashmap.toString());
+                        intent.putExtra("uid_hashmap",uid_hashmap);
+                        startActivity(intent);
+                    }
                 }
             }
             @Override

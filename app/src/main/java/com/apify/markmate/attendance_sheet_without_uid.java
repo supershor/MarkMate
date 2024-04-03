@@ -188,39 +188,17 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
                                     Log.e("o---------ch",3+""+start+"");
                                     Log.e("o---------ch",3+""+end+"");
                                     Log.e("o---------ch",3+""+check+"");
-                                    if (check){
-                                        Log.e("onClick:--------------","1");
-                                        HashMap<String, HashMap<String,String>>hashMap=new HashMap<>();
-                                        Log.e("adjf--------------",hashMap.toString());
-                                        for (int i=start;i<=end;i++){
-                                            HashMap<String,String>hs=new HashMap<>();
-                                            hs.put("uid","uid");
-                                            hs.put("checkbox","false");
-                                            hashMap.put(String.valueOf(i),hs);
-                                        }
-                                        Log.e("onClick:--------------",hashMap.toString());
-                                        databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(attendance_sheet_without_uid.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                        Log.e("onClick:--------------","final");
+                                    HashMap<String,Boolean>hashMap=new HashMap<>();
+                                    for (int i=start;i<=end;i++){
+                                        hashMap.put(String.valueOf(i),false);
                                     }
-                                    else {
-                                        HashMap<String,Boolean>hashMap=new HashMap<>();
-                                        for (int i=start;i<=end;i++){
-                                            hashMap.put(String.valueOf(i),false);
-                                        }
-                                        databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(attendance_sheet_without_uid.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                    }
+                                    databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(attendance_sheet_without_uid.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                 }
 
                                 @Override
@@ -345,39 +323,17 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
                                 Log.e("o---------ch",3+""+start+"");
                                 Log.e("o---------ch",3+""+end+"");
                                 Log.e("o---------ch",3+""+check+"");
-                                if (check){
-                                    Log.e("onClick:--------------","1");
-                                    HashMap<String, HashMap<String,String>>hashMap=new HashMap<>();
-                                    Log.e("adjf--------------",hashMap.toString());
-                                    for (int i=start;i<=end;i++){
-                                        HashMap<String,String>hs=new HashMap<>();
-                                        hs.put("uid","uid");
-                                        hs.put("checkbox","false");
-                                        hashMap.put(String.valueOf(i),hs);
-                                    }
-                                    Log.e("onClick:--------------",hashMap.toString());
-                                    databaseReference.child("attendance_sheet").child(dates_arr.get(postion)).setValue(hashMap)
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(attendance_sheet_without_uid.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                    Log.e("onClick:--------------","final");
+                                HashMap<String,Boolean>hashMap=new HashMap<>();
+                                for (int i=start;i<=end;i++){
+                                    hashMap.put(String.valueOf(i),false);
                                 }
-                                else {
-                                    HashMap<String,Boolean>hashMap=new HashMap<>();
-                                    for (int i=start;i<=end;i++){
-                                        hashMap.put(String.valueOf(i),false);
-                                    }
-                                    databaseReference.child("attendance_sheet").child(dates_arr.get(postion)).setValue(hashMap)
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(attendance_sheet_without_uid.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
+                                databaseReference.child("attendance_sheet").child(dates_arr.get(postion)).setValue(hashMap)
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(attendance_sheet_without_uid.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             }
 
                             @Override

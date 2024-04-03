@@ -63,6 +63,8 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
     DatabaseReference sub_org_details;
     String date_from_date_picker_input_date;
     LinearLayout layout;
+    HashMap<String,String>uid_hashmap=new HashMap<>();
+
     DatabaseReference date_reference;
 
     AppCompatButton save_attendance_with_uid;
@@ -95,6 +97,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
         intent=getIntent();
         attendance_arr=new ArrayList<>();
         org=intent.getStringExtra("org");
+        uid_hashmap= (HashMap<String, String>) intent.getSerializableExtra("uid_hashmap");
         sub_org=intent.getStringExtra("sub_org");
         dates_arr=new ArrayList<>();
         layout=findViewById(R.id.attendance_layout_with_uid);
@@ -188,39 +191,17 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                                     Log.e("o---------ch", 3+""+start);
                                     Log.e("o---------ch", 3+""+end);
                                     Log.e("o---------ch", 3+""+check);
-                                    if (check){
-                                        Log.e("onClick:--------------","1");
-                                        HashMap<String, HashMap<String,String>>hashMap=new HashMap<>();
-                                        Log.e("adjf--------------",hashMap.toString());
-                                        for (int i=start;i<=end;i++){
-                                            HashMap<String,String>hs=new HashMap<>();
-                                            hs.put("uid","uid");
-                                            hs.put("checkbox","false");
-                                            hashMap.put(String.valueOf(i),hs);
-                                        }
-                                        Log.e("onClick:--------------",hashMap.toString());
-                                        databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(attendance_sheet_with_uid.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                        Log.e("onClick:--------------","final");
+                                    HashMap<String,Boolean>hashMap=new HashMap<>();
+                                    for (int i=start;i<=end;i++){
+                                        hashMap.put(String.valueOf(i),false);
                                     }
-                                    else {
-                                        HashMap<String,Boolean>hashMap=new HashMap<>();
-                                        for (int i=start;i<=end;i++){
-                                            hashMap.put(String.valueOf(i),false);
-                                        }
-                                        databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(attendance_sheet_with_uid.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                    }
+                                    databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(attendance_sheet_with_uid.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                 }
 
                                 @Override
@@ -351,39 +332,17 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                                 Log.e("o---------ch", 3+""+start);
                                 Log.e("o---------ch", 3+""+end);
                                 Log.e("o---------ch", 3+""+check);
-                                if (check){
-                                    Log.e("onClick:--------------","1");
-                                    HashMap<String, HashMap<String,String>>hashMap=new HashMap<>();
-                                    Log.e("adjf--------------",hashMap.toString());
-                                    for (int i=start;i<=end;i++){
-                                        HashMap<String,String>hs=new HashMap<>();
-                                        hs.put("uid","uid");
-                                        hs.put("checkbox","false");
-                                        hashMap.put(String.valueOf(i),hs);
-                                    }
-                                    Log.e("onClick:--------------",hashMap.toString());
-                                    databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(attendance_sheet_with_uid.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                    Log.e("onClick:--------------","final");
+                                HashMap<String,Boolean>hashMap=new HashMap<>();
+                                for (int i=start;i<=end;i++){
+                                    hashMap.put(String.valueOf(i),false);
                                 }
-                                else {
-                                    HashMap<String,Boolean>hashMap=new HashMap<>();
-                                    for (int i=start;i<=end;i++){
-                                        hashMap.put(String.valueOf(i),false);
-                                    }
-                                    databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(attendance_sheet_with_uid.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
+                                databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(attendance_sheet_with_uid.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             }
 
                             @Override
@@ -396,7 +355,8 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                     Log.e("on error>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",snapshot.toString());
                     for (DataSnapshot ds:snapshot.getChildren()){
                         Log.e("on error--------------------------",ds.toString());
-                        attendance_arr.add(new attendance_data_with_uid(ds.getKey(),Boolean.valueOf(ds.child("checkbox").getValue().toString()),ds.child("uid").getValue().toString()));
+                        Log.e("on error--------------------------",uid_hashmap.toString());
+                        attendance_arr.add(new attendance_data_with_uid(ds.getKey(),Boolean.valueOf(ds.getValue().toString()),uid_hashmap.get(ds.getKey())));
                     }
                     attendance_recycler_view_with_uid r=new attendance_recycler_view_with_uid(attendance_sheet_with_uid.this,attendance_arr,attendance_sheet_with_uid.this::onItemclick);
                     recyclerView_attendance.setAdapter(r);
