@@ -225,12 +225,15 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.e("ansp-----------------", snapshot.toString());
+                Log.e("ansp-----------------", String.valueOf(!Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("checkBox").getValue()).toString())));
+
                 if (!Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("checkBox").getValue()).toString())){
                     Intent intent=new Intent(sub_organization.this, attendance_sheet_without_uid.class);
                     intent.putExtra("org",org);
                     intent.putExtra("sub_org",arr.get(postion).name);
                     startActivity(intent);
                 }else {
+                    Log.e("ansp-----------------", Boolean.valueOf(snapshot.child("uid_hashmap").getValue()==null)+"");
                     Intent intent=new Intent(sub_organization.this, attendance_sheet_with_uid.class);
                     intent.putExtra("org",org);
                     intent.putExtra("sub_org",arr.get(postion).name);
@@ -241,9 +244,21 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                         for (int i = start; i <=end; i++) {
                             uid_hashmap.put(String.valueOf(i),"--uid--");
                         }
-                        Log.e("onDataChange:---------",uid_hashmap.toString());
-                        intent.putExtra("uid_hashmap",uid_hashmap);
-                        startActivity(intent);
+                        sub_org_details.child("uid_hashmap").setValue(uid_hashmap).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e( "onFailure: ",e.toString());
+                                Toast.makeText(sub_organization.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Log.e("onSuccess:-----------------","sucess");
+                                Log.e("onDataChange:---------",uid_hashmap.toString());
+                                intent.putExtra("uid_hashmap",uid_hashmap);
+                                startActivity(intent);
+                            }
+                        });
                     }else{
                         HashMap<String,String>uid_hashmap=new HashMap<>();
                         for (DataSnapshot ds:snapshot.child("uid_hashmap").getChildren()){

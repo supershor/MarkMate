@@ -119,6 +119,7 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
                         }
                     });
                 }
+                Toast.makeText(attendance_sheet_without_uid.this, "attendance saved", Toast.LENGTH_SHORT).show();
             }
         });
         date_reference.child("attendance_dates").addValueEventListener(new ValueEventListener() {

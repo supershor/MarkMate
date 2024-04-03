@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.ScrollingTabContainerView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -31,6 +37,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hbb20.R.layout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +49,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
     boolean check;
     AppCompatButton attendance_settings;
     AppCompatButton change_uid;
+    ArrayList<String>sr_no_list;
     AppCompatButton count_total_attendance;
     AppCompatButton present_all_attendance;
     AppCompatButton reset_all_attendance;
@@ -53,10 +61,9 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
     AppCompatButton settings_at_attendance_sheet_with_uid;
     AppCompatButton add_date_at_attendance_sheet_with_uid;
     ArrayList<String>dates_arr;
+    String selected;
     int start;
     int end;
-
-
     String org;
     String sub_org;
     FirebaseAuth firebaseAuth;
@@ -66,6 +73,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
     HashMap<String,String>uid_hashmap=new HashMap<>();
 
     DatabaseReference date_reference;
+    DatabaseReference uid_changing;
 
     AppCompatButton save_attendance_with_uid;
     FirebaseDatabase firebaseDatabase;
@@ -101,11 +109,13 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
         sub_org=intent.getStringExtra("sub_org");
         dates_arr=new ArrayList<>();
         layout=findViewById(R.id.attendance_layout_with_uid);
+        sr_no_list=new ArrayList<>();
         settings_at_attendance_sheet_with_uid=findViewById(R.id.settings_at_attendance_sheet_with_uid);
         add_date_at_attendance_sheet_with_uid=findViewById(R.id.add_date_at_attendance_sheet_with_uid);
         save_attendance_with_uid=findViewById(R.id.save_attendance_with_uid);
         firebaseDatabase=FirebaseDatabase.getInstance("https://markmate-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/");
         sub_org_details=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("list_of_sub_organization").child(intent.getStringExtra("sub_org"));
+        uid_changing=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("list_of_sub_organization").child(intent.getStringExtra("sub_org")).child("uid_hashmap");
         date_reference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
         recyclerView_attendance=findViewById(R.id.attendance_recycler);
         recyclerView_attendance.setLayoutManager(new LinearLayoutManager(this));
@@ -195,6 +205,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                                     for (int i=start;i<=end;i++){
                                         hashMap.put(String.valueOf(i),false);
                                     }
+                                    date_reference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                                     databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
@@ -247,6 +258,56 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                 change_uid.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        View v1=LayoutInflater.from(attendance_sheet_with_uid.this).inflate(R.layout.change_uid_at_attendance_sheet,null);
+                        Spinner autoCompleteTextView=v1.findViewById(R.id.autoComplete);
+                        EditText editText=v1.findViewById(R.id.enter_uid);
+                        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(attendance_sheet_with_uid.this, com.hbb20.R.layout.support_simple_spinner_dropdown_item,sr_no_list);
+                        autoCompleteTextView.setAdapter(arrayAdapter);
+                        AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_with_uid.this);
+                        selected=null;
+                        autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                selected=sr_no_list.get(position).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                                selected=null;
+                            }
+                        });
+                        alert.setView(v1)
+                                .setCancelable(false)
+                                .setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if(selected!=null&&editText.getText()!=null&&editText.getText().length()>0){
+                                            uid_changing.child(selected).setValue(editText.getText().toString())
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            Log.e("sucess------------------","sucess");
+                                                            Toast.makeText(attendance_sheet_with_uid.this, "UID changed", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.e( "onFailure:-------------------",e.toString());
+                                                            Toast.makeText(attendance_sheet_with_uid.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                })
+                                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.e("onClick:------------------",sr_no_list.toString());
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alert.show();
                         Toast.makeText(attendance_sheet_with_uid.this, "1", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -336,6 +397,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                                 for (int i=start;i<=end;i++){
                                     hashMap.put(String.valueOf(i),false);
                                 }
+                                date_reference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                                 databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
@@ -352,8 +414,10 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                         });
                     }
                     attendance_arr.clear();
+                    sr_no_list.clear();
                     Log.e("on error>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",snapshot.toString());
                     for (DataSnapshot ds:snapshot.getChildren()){
+                        sr_no_list.add(ds.getKey());
                         Log.e("on error--------------------------",ds.toString());
                         Log.e("on error--------------------------",uid_hashmap.toString());
                         attendance_arr.add(new attendance_data_with_uid(ds.getKey(),Boolean.valueOf(ds.getValue().toString()),uid_hashmap.get(ds.getKey())));
