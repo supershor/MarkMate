@@ -40,6 +40,8 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
     RecyclerView recyclerView_attendance;
     RecyclerView recyclerView_dates;
     AppCompatButton attendance_settings;
+    ArrayList<String>sr_no_list;
+
     AppCompatButton change_uid;
     AppCompatButton count_total_attendance;
     AppCompatButton present_all_attendance;
@@ -97,6 +99,7 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
         sub_org=intent.getStringExtra("sub_org");
         dates_arr=new ArrayList<>();
         layout=findViewById(R.id.attendance_layout_without_uid);
+        sr_no_list=new ArrayList<>();
         settings_at_attendance_sheet_without_uid=findViewById(R.id.settings_at_attendance_sheet_without_uid);
         add_date_at_attendance_sheet_without_uid=findViewById(R.id.add_date_at_attendance_sheet_without_uid);
         save_attendance_without_uid=findViewById(R.id.save_attendance_without_uid);
@@ -246,6 +249,15 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
                 count_total_attendance.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Intent intent1=new Intent(attendance_sheet_without_uid.this,total_attendance.class);
+                        intent1.putExtra("org",org);
+                        intent1.putExtra("sub_org",sub_org);
+                        intent1.putExtra("dates_arr",dates_arr);
+                        intent1.putExtra("has_uid",false);
+                        intent1.putExtra("sr_no_list",sr_no_list);
+                        HashMap<String,String>uid_hashmap=new HashMap<>();
+                        intent1.putExtra("uid_hashmap",uid_hashmap);
+                        startActivity(intent1);
                         Toast.makeText(attendance_sheet_without_uid.this, "2", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -344,7 +356,9 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
                         });
                     }
                     attendance_arr.clear();
+                    sr_no_list.clear();
                     for (DataSnapshot ds:snapshot.getChildren()){
+                        sr_no_list.add(ds.getKey());
                         attendance_arr.add(new attendance_data_without_uid(ds.getKey(),Boolean.valueOf(ds.getValue().toString())));
                     }
                     attendance_recycler_view_without_uid r=new attendance_recycler_view_without_uid(attendance_sheet_without_uid.this,attendance_arr,attendance_sheet_without_uid.this::onItemclick);

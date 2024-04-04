@@ -125,8 +125,9 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
         save_attendance_with_uid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                 for(int i=0;i<attendance_arr.size();i++){
-                    databaseReference.child(attendance_arr.get(i).sr_no).setValue(attendance_arr.get(i).present).addOnFailureListener(new OnFailureListener() {
+                    databaseReference.child("attendance_sheet").child(dates_arr.get(current_date_index)).child(attendance_arr.get(i).sr_no).setValue(attendance_arr.get(i).present).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.e("ans failed",e.toString());
@@ -314,15 +315,23 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                 count_total_attendance.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Intent intent1=new Intent(attendance_sheet_with_uid.this,total_attendance.class);
+                        intent1.putExtra("org",org);
+                        intent1.putExtra("sub_org",sub_org);
+                        intent1.putExtra("dates_arr",dates_arr);
+                        intent1.putExtra("has_uid",true);
+                        intent1.putExtra("sr_no_list",sr_no_list);
+                        intent1.putExtra("uid_hashmap",uid_hashmap);
+                        startActivity(intent1);
                         Toast.makeText(attendance_sheet_with_uid.this, "2", Toast.LENGTH_SHORT).show();
                     }
                 });
                 reset_all_attendance.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org")).child("attendance_sheet").child(dates_arr.get(current_date_index));
+                        databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                         Log.e("hit ---------------","1");
-                        databaseReference.addValueEventListener(new ValueEventListener() {
+                        databaseReference.child("attendance_sheet").child(dates_arr.get(current_date_index)).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 Log.e("ppppppppppp>>>>>>>>>>>>>>>>",snapshot.toString());
@@ -375,14 +384,13 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
     public void onItemclick(int postion,int i) {
         if (i==1){
             current_date_index=postion;
-            databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org")).child("attendance_sheet").child(dates_arr.get(postion));
+            databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
             Log.e("hit ---------------","1");
-            databaseReference.addValueEventListener(new ValueEventListener() {
+            databaseReference.child("attendance_sheet").child(dates_arr.get(postion)).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Log.e("ppppppppppp>>>>>>>>>>>>>>>>",snapshot.toString());
                     if (snapshot.getValue()==null){
-                        databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                         sub_org_details.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -397,6 +405,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                                 for (int i=start;i<=end;i++){
                                     hashMap.put(String.valueOf(i),false);
                                 }
+                                databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                                 date_reference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                                 databaseReference.child("attendance_sheet").child(date_from_date_picker_input_date).setValue(hashMap)
                                         .addOnFailureListener(new OnFailureListener() {
