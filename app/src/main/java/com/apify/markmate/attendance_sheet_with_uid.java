@@ -126,7 +126,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
             @Override
             public void onClick(View v) {
                 for(int i=0;i<attendance_arr.size();i++){
-                    databaseReference.child(attendance_arr.get(i).sr_no).child("checkbox").setValue(attendance_arr.get(i).present).addOnFailureListener(new OnFailureListener() {
+                    databaseReference.child(attendance_arr.get(i).sr_no).setValue(attendance_arr.get(i).present).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.e("ans failed",e.toString());
@@ -330,7 +330,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                                 Log.e("on error>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",snapshot.toString());
                                 for (DataSnapshot ds:snapshot.getChildren()){
                                     Log.e("on error--------------------------",ds.toString());
-                                    attendance_arr.add(new attendance_data_with_uid(ds.getKey(),Boolean.valueOf(ds.child("checkbox").getValue().toString()),ds.child("uid").getValue().toString()));
+                                    attendance_arr.add(new attendance_data_with_uid(ds.getKey(),Boolean.valueOf(ds.getValue().toString()),uid_hashmap.get(ds.getKey())));
                                 }
                                 attendance_recycler_view_with_uid r=new attendance_recycler_view_with_uid(attendance_sheet_with_uid.this,attendance_arr,attendance_sheet_with_uid.this::onItemclick);
                                 recyclerView_attendance.setAdapter(r);
