@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.apify.markmate"
+    namespace = "com.supershor.markmate"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.apify.markmate"
+        applicationId = "com.supershor.markmate"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
