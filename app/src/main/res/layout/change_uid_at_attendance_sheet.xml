@@ -4,6 +4,16 @@
     android:orientation="vertical"
     android:background="@color/background"
     android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16sdp"
+        android:spinnerMode="dropdown"
+        android:backgroundTint="@color/black"
+        style="@style/black"
+        android:theme="@style/black"
+        android:id="@+id/autoComplete"
+        />
     <Spinner
         android:dropDownSelector="@color/black"
         android:background="@drawable/input_taker"
@@ -14,7 +24,7 @@
         android:textAlignment="center"
         android:layout_weight="1"
         android:layout_margin="@dimen/_15sdp"
-        android:id="@+id/autoComplete"/>
+        android:visibility="gone"/>
     <EditText
         android:layout_weight="1"
         android:background="@drawable/input_taker"
@@ -24,6 +34,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_16sdp"
         android:layout_margin="@dimen/_15sdp"
+        android:singleLine="true"
         android:hint="Enter uid"
         android:textAlignment="center"
         android:id="@+id/enter_uid"

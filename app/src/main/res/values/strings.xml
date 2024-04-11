@@ -4,5 +4,6 @@
     <string name="does_not_have_an_account"><u>Don\'t have an account ? Sign up.</u></string>
     <string name="agree_to_terms_and_condition">I agree to terms and conditions of MarkMate. Therefore declaring that my information will be stored for safety purposes.</string>
     <string name="forgot_password"><u>Forgot password?</u></string>
+    <string name="select">Select</string>
     <string name="loading_page_welcome_note">Streamline your attendance tracking with a reliable system that safeguards and organizes your records efficiently.</string>
 </resources>

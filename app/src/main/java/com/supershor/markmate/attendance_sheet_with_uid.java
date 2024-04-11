@@ -43,6 +43,7 @@ import java.util.Objects;
 public class attendance_sheet_with_uid extends AppCompatActivity implements RecyclerViewInterface_date_attendance{
     RecyclerView recyclerView_attendance;
     RecyclerView recyclerView_dates;
+    androidx.appcompat.widget.AppCompatSpinner spinner;
     boolean check;
     AppCompatButton attendance_settings;
     AppCompatButton change_uid;
@@ -257,13 +258,14 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                     @Override
                     public void onClick(View v) {
                         View v1=LayoutInflater.from(attendance_sheet_with_uid.this).inflate(R.layout.change_uid_at_attendance_sheet,null);
-                        Spinner autoCompleteTextView=v1.findViewById(R.id.autoComplete);
+                        spinner=v1.findViewById(R.id.autoComplete);
                         EditText editText=v1.findViewById(R.id.enter_uid);
-                        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(attendance_sheet_with_uid.this, com.hbb20.R.layout.support_simple_spinner_dropdown_item,sr_no_list);
-                        autoCompleteTextView.setAdapter(arrayAdapter);
+                        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(attendance_sheet_with_uid.this, R.layout.uid_chooser_textview,sr_no_list);
+                        arrayAdapter.setDropDownViewResource(com.hbb20.R.layout.support_simple_spinner_dropdown_item);
+                        spinner.setAdapter(arrayAdapter);
                         AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_with_uid.this);
                         selected=null;
-                        autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 selected=sr_no_list.get(position).toString();
