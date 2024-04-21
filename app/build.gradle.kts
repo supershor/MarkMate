@@ -33,9 +33,13 @@ android {
 }
 
 dependencies {
+    //noinspection UseTomlInstead
     implementation ("com.hbb20:ccp:2.7.3")
+    //noinspection GradleDependency,UseTomlInstead
     implementation ("com.airbnb.android:lottie:3.4.0")
+    //noinspection UseTomlInstead
     implementation("com.intuit.sdp:sdp-android:1.1.0")
+    //noinspection UseTomlInstead
     implementation("com.intuit.sdp:sdp-android:1.1.0")
     implementation(libs.appcompat)
     implementation(libs.material)
