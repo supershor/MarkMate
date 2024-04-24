@@ -260,6 +260,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                             }
                         });
                     }else{
+                        Log.e( "main onDataChange:+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++","hit");
                         HashMap<String,String>uid_hashmap=new HashMap<>();
                         for (DataSnapshot ds:snapshot.child("uid_hashmap").getChildren()){
                             uid_hashmap.put(ds.getKey(),ds.getValue().toString());
