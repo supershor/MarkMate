@@ -6,4 +6,7 @@
     <color name="background">#EDF6F9</color>
     <color name="light">#D9D9D9</color>
     <color name="dialog_light">#DFDFDF</color>
+
+    <color name="positive_button_color">#081c15</color>
+    <color name="negative_button_color">#f00</color>
 </resources>

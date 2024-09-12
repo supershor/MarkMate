@@ -61,7 +61,7 @@ public class settings extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alert=new AlertDialog.Builder(settings.this);
+                AlertDialog.Builder alert=new AlertDialog.Builder(settings.this,R.style.MyDialogThemeforLogout);
                 alert.setTitle("Logout")
                         .setCancelable(false)
                         .setMessage("Do you want to logout ? ")

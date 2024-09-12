@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,11 +104,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 View v1= LayoutInflater.from(MainActivity.this).inflate(R.layout.org_name_desc_alert_dialog_view,null);
                 org_name =v1.findViewById(R.id.org_name_alert_dialog);
                 org_desc =v1.findViewById(R.id.org_desc_alert_dialog);
-                final AlertDialog.Builder org_name_input_alert_dialog =new AlertDialog.Builder(MainActivity.this,R.style.Alert_Dialog_BAckground);
+                final AlertDialog.Builder org_name_input_alert_dialog =new AlertDialog.Builder(MainActivity.this,R.style.MyDialogTheme_MainActivity);
                 org_name_input_alert_dialog.setView(v1);
                 org_name_input_alert_dialog.setTitle("Enter organization name")
                         .setMessage("You can't change this later")
-                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(Html.fromHtml("<font color='#000000'>SAVE</font>"), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if(check_fields()){
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                                     Toast.makeText(MainActivity.this,issues, Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        }).setNegativeButton(Html.fromHtml("<font color='#FF0000'>CANCEL</font>"), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();

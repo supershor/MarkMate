@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -67,9 +68,9 @@ public class login_page extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText editText=new EditText(login_page.this);
-                final AlertDialog.Builder reset_alert_dialog=new AlertDialog.Builder(login_page.this);
+                final AlertDialog.Builder reset_alert_dialog=new AlertDialog.Builder(login_page.this,R.style.MyDialogTheme);
                 reset_alert_dialog.setTitle("Reset Password").setMessage("Enter your email to get reset link").setView(editText);
-                reset_alert_dialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                reset_alert_dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (editText.getText()!=null&&editText.getText().toString().length()>0){
@@ -93,7 +94,7 @@ public class login_page extends AppCompatActivity {
                         }
                     }
                 });
-                reset_alert_dialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                reset_alert_dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();

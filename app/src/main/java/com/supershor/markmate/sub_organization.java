@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,7 +126,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                 sub_org_name_desc_input_taker.setView(v1);
                 sub_org_name_desc_input_taker.setTitle("Sub-Organization")
                         .setMessage("You can't change this later")
-                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(Html.fromHtml("<font color='#000000'>SAVE</font>"), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if(check_fields()){
@@ -158,7 +159,7 @@ public class sub_organization extends AppCompatActivity implements RecyclerViewI
                                     Toast.makeText(sub_organization.this,issues, Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        }).setNegativeButton(Html.fromHtml("<font color='#FF0000'>CANCEL</font>"), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();

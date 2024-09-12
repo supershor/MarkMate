@@ -166,7 +166,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                 databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                 View v1= LayoutInflater.from(attendance_sheet_with_uid.this).inflate(R.layout.date_picker,null);
                 DatePicker datePicker=v1.findViewById(R.id.datepicker);
-                AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_with_uid.this);
+                AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_with_uid.this,R.style.MyDialogTheme);
                 alert.setView(v1);
                 alert.setCancelable(false);
                 alert.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
@@ -245,7 +245,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                 reset_all_attendance=v1.findViewById(R.id.reset_all_attendance);
                 present_all_attendance=v1.findViewById(R.id.present_all_attendance);
                 absent_all_attendance=v1.findViewById(R.id.absent_all_attendance);
-                AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_with_uid.this);
+                AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_with_uid.this,R.style.MyDialogTheme);
                 alert.setView(v1);
                 alert.setCancelable(true);
                 alert.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
@@ -263,7 +263,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                         ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(attendance_sheet_with_uid.this, R.layout.uid_chooser_textview,sr_no_list);
                         arrayAdapter.setDropDownViewResource(com.hbb20.R.layout.support_simple_spinner_dropdown_item);
                         spinner.setAdapter(arrayAdapter);
-                        AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_with_uid.this);
+                        AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_with_uid.this,R.style.MyDialogTheme);
                         selected=null;
                         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
@@ -307,6 +307,7 @@ public class attendance_sheet_with_uid extends AppCompatActivity implements Recy
                                         dialog.dismiss();
                                     }
                                 });
+
                         alert.show();
                         Toast.makeText(attendance_sheet_with_uid.this, "1", Toast.LENGTH_SHORT).show();
                     }

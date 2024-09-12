@@ -155,7 +155,7 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
                 databaseReference=firebaseDatabase.getReference("USER DATA").child(firebaseAuth.getCurrentUser().getUid()).child("organization").child(intent.getStringExtra("org")).child("sub_organization").child(intent.getStringExtra("sub_org"));
                 View v1= LayoutInflater.from(attendance_sheet_without_uid.this).inflate(R.layout.date_picker,null);
                 DatePicker datePicker=v1.findViewById(R.id.datepicker);
-                AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_without_uid.this);
+                AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_without_uid.this,R.style.MyDialogTheme);
                 alert.setView(v1);
                 alert.setCancelable(false);
                 alert.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
@@ -236,7 +236,7 @@ public class attendance_sheet_without_uid extends AppCompatActivity implements R
                 reset_all_attendance=v1.findViewById(R.id.reset_all_attendance);
                 present_all_attendance=v1.findViewById(R.id.present_all_attendance);
                 absent_all_attendance=v1.findViewById(R.id.absent_all_attendance);
-                AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_without_uid.this);
+                AlertDialog.Builder alert=new AlertDialog.Builder(attendance_sheet_without_uid.this,R.style.MyDialogTheme);
                 alert.setView(v1);
                 alert.setCancelable(true);
                 alert.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
