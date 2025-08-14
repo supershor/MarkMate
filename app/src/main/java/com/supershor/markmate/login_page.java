@@ -48,7 +48,7 @@ public class login_page extends AppCompatActivity {
         });
 
         //setting status bar color to dark green for better look
-        getWindow().setStatusBarColor(ContextCompat.getColor(login_page.this,R.color.dark_green));
+        //getWindow().setStatusBarColor(ContextCompat.getColor(login_page.this,R.color.dark_green));
 
         firebaseAuth=FirebaseAuth.getInstance();
 
